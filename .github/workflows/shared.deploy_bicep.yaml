@@ -70,4 +70,4 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-          az deployment sub create --location ${{ vars.LOCATION }} --template-file src/main.bicep --parameters src/parameters/${{ inputs.deployEnv }}.bicepparam
+          az deployment sub create --name deploy--${{ github.run_id }} --location ${{ vars.LOCATION }} --template-file src/main.bicep --parameters src/parameters/${{ inputs.deployEnv }}.bicepparam
