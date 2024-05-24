@@ -57,6 +57,8 @@ jobs:
       url: ${{ steps.deploy.outputs.url }}
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
     - name: Deploy Bicep
       id: deploy
       uses: Azure/cli@v1
