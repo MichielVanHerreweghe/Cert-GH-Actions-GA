@@ -13,11 +13,8 @@ on:
         type: string
 
 jobs:
-  deploy:
-    environment: 
-      name: ${{ inputs.deployEnv }}
-      url: ${{ steps.whatif-string.outputs.url }}
-    name: 'Deploy Bicep - ${{ inputs.deployEnv }}'
+  what-if:
+    name: 'Bicep What-If - ${{ inputs.deployEnv }}'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -46,8 +43,18 @@ jobs:
           echo '```' >> $GITHUB_OUTPUT
           echo "</details>" >> $GITHUB_OUTPUT
           echo "${delimiter}" >> $GITHUB_OUTPUT
-      - name: Deploy Bicep
-        uses: Azure/cli@v1
-        with:
-          inlineScript: |
-            az bicep deploy --file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
+          
+  deploy:        
+    name: 'Deploy Bicep - ${{ inputs.deployEnv }}'
+    needs: what-if
+    environment: 
+      name: ${{ inputs.deployEnv }}
+      url: ${{ steps.deploy.outputs.url }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy Bicep
+      id: deploy
+      uses: Azure/cli@v1
+      with:
+        inlineScript: |
+          az bicep deploy --file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
