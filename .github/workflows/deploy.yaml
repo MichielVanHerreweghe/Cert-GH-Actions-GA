@@ -1,0 +1,35 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches: 
+      - main
+    paths:
+      - 'src/**'
+
+jobs:
+  deploy_dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Dev
+        uses: ./.github/workflows/reusable/deploy_bicep.yaml@main
+        with:
+          environment: dev
+
+  deploy_stg:
+    needs: deploy_dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Stg
+        uses: ./.github/workflows/reusable/deploy_bicep.yaml@main
+        with:
+          environment: stg
+
+  deploy_prod:
+    needs: deploy_stg
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Prod
+        uses: ./.github/workflows/reusable/deploy_bicep.yaml@main
+        with:
+          environment: prod
