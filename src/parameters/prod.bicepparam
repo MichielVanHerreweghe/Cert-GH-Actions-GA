@@ -11,6 +11,6 @@ param environment = 'dev'
 // Frontend - Container App parameters
 param frontendScaleMinReplicas = 1
 param frontendScaleMaxReplicas = 1
-param frontendCpu = '2'
-param frontendMemory = '2 Gi'
+param frontendCpu = '1'
+param frontendMemory = '1 Gi'
 param defaultImage = 'nginx:latest'
