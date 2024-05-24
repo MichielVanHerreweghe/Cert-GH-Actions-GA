@@ -4,13 +4,26 @@ using '../main.bicep'
 param projectName = 'CloudTravel'
 param location = 'westeurope'
 param locationShortName = 'weu'
-param environment = 'dev'
+param environment = 'prod'
 
 // Container App Environment parameters
 
-// Frontend - Container App parameters
-param frontendScaleMinReplicas = 1
-param frontendScaleMaxReplicas = 1
-param frontendCpu = '1'
-param frontendMemory = '2Gi'
-param defaultImage = 'nginx:latest'
+// Container App parameters
+param containerAppConfigurations = [
+  {
+    applicationType: 'frontend'
+    scaleMinReplicas: 1
+    scaleMaxReplicas: 1
+    cpu: '1'
+    memory: '2Gi'
+    defaultImage: 'nginx-latest' 
+  }
+  {
+    applicationType: 'backend'
+    scaleMinReplicas: 1
+    scaleMaxReplicas: 3
+    cpu: '1'
+    memory: '2Gi'
+    defaultImage: 'nginx-latest' 
+  }
+]
