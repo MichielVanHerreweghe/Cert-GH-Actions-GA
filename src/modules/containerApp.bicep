@@ -54,6 +54,7 @@ module containerApp 'br/public:avm/res/app/container-app:0.4.0' = {
     tags: containerAppTags
     containers: [
       {
+        name: containerAppName
         image: containerAppImage(containerAppConfiguration , containerAppName, defaultImage)
         resources: {
           cpu: json(cpu)
