@@ -43,6 +43,11 @@ jobs:
           echo '```' >> $GITHUB_OUTPUT
           echo "</details>" >> $GITHUB_OUTPUT
           echo "${delimiter}" >> $GITHUB_OUTPUT
+      - name: Publish Whatif to Task Summary
+        env:
+          SUMMARY: ${{ steps.whatif-string.outputs.summary }}
+        run: |
+          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
           
   deploy:        
     name: 'Deploy Bicep - ${{ inputs.deployEnv }}'
@@ -57,4 +62,4 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-          az bicep deploy --file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
+          az deployment sub create --location ${{ github.event.inputs.location}} --template-file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
