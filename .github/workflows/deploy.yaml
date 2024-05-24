@@ -22,7 +22,7 @@ jobs:
   deploy_dev:
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
-      environment: dev
+      deployEnv: dev
       location: ${{ github.event.inputs.location }}
     secrets: inherit
 
@@ -30,7 +30,7 @@ jobs:
     needs: deploy_dev
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
-      environment: stg
+      deployEnv: stg
       location: ${{ github.event.inputs.location }}
     secrets: inherit
 
@@ -38,6 +38,6 @@ jobs:
     needs: deploy_stg
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
-      environment: stg
+      deployEnv: stg
       location: ${{ github.event.inputs.location }}
     secrets: inherit
