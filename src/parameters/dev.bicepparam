@@ -2,8 +2,8 @@ using '../main.bicep'
 
 // General parameters
 param projectName = 'CloudTravel'
-param location = 'westeurope'
-param locationShortName = 'weu'
+param location = 'northeurope'
+param locationShortName = 'neu'
 param environment = 'dev'
 
 // Container App Environment parameters
