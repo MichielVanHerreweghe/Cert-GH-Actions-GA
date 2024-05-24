@@ -7,29 +7,26 @@ on:
     paths:
       - 'src/**'
 
+permissions:
+  id-token: write
+  contents: read
+  security-events: write
+
 jobs:
   deploy_dev:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Dev
-        uses: ./.github/workflows/reusable/deploy_bicep.yaml@main
-        with:
-          environment: dev
+    uses: ./.github/workflows/reusable/deploy_bicep.yaml
+    with:
+      environment: dev
+    secrets: inherit
 
   deploy_stg:
-    needs: deploy_dev
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Stg
-        uses: ./.github/workflows/reusable/deploy_bicep.yaml@main
-        with:
-          environment: stg
+    uses: ./.github/workflows/reusable/deploy_bicep.yaml
+    with:
+      environment: stg
+    secrets: inherit
 
   deploy_prod:
-    needs: deploy_stg
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Prod
-        uses: ./.github/workflows/reusable/deploy_bicep.yaml@main
-        with:
-          environment: prod
+    uses: ./.github/workflows/reusable/deploy_bicep.yaml
+    with:
+      environment: stg
+    secrets: inherit

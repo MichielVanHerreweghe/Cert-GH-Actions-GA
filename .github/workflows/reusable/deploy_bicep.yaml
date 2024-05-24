@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    name: 'Deploy Bicep - ${{ upper(github.event.inputs.environment) }}'
+    name: 'Deploy Bicep - ${{ github.event.inputs.environment }}'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,7 +26,7 @@ jobs:
         uses: Azure/cli@v1
         with:
           inlineScript: |
-              az bicep what-if --file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
+            az bicep what-if --file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
       - name: Show What-If Plan
         run: |
           echo "${{ steps.whatif.outputs.stdout }}"
@@ -34,16 +34,16 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-              const { owner, repo } = context.repo
-              const { number } = context.issue
-              const { id } = await github.rest.actions.createWorkflowRunApproval({
-              owner,
-              repo,
-              run_id: number
-              })
-              console.log(`Created approval with id ${id}`)
+            const { owner, repo } = context.repo
+            const { number } = context.issue
+            const { id } = await github.rest.actions.createWorkflowRunApproval({
+            owner,
+            repo,
+            run_id: number
+            })
+            console.log(`Created approval with id ${id}`)
       - name: Deploy Bicep
         uses: Azure/cli@v1
         with:
           inlineScript: |
-          az bicep deploy --file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
+            az bicep deploy --file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
