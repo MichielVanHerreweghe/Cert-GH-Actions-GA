@@ -12,5 +12,5 @@ param environment = 'dev'
 param frontendScaleMinReplicas = 1
 param frontendScaleMaxReplicas = 1
 param frontendCpu = '1'
-param frontendMemory = '1 Gi'
+param frontendMemory = '1Gi'
 param defaultImage = 'nginx:latest'
