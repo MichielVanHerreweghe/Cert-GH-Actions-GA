@@ -62,4 +62,4 @@ jobs:
       uses: Azure/cli@v1
       with:
         inlineScript: |
-          az deployment sub create --location ${{ github.event.inputs.location}} --template-file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
+          az deployment sub create --location ${{ github.event.inputs.location}} --template-file src/main.bicep --parameters src/parameters/${{ github.event.inputs.deployEnv }}.bicepparam
