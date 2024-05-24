@@ -1,6 +1,12 @@
 name: Deploy Infrastructure
 
 on:
+  workflow_dispatch: 
+    inputs:
+      location:
+        required: true
+        description: 'The location to deploy to'
+        type: string
   push:
     branches: 
       - main
@@ -17,6 +23,7 @@ jobs:
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
       environment: dev
+      location: ${{ github.event.inputs.location }}
     secrets: inherit
 
   deploy_stg:
@@ -24,6 +31,7 @@ jobs:
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
       environment: stg
+      location: ${{ github.event.inputs.location }}
     secrets: inherit
 
   deploy_prod:
@@ -31,4 +39,5 @@ jobs:
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
       environment: stg
+      location: ${{ github.event.inputs.location }}
     secrets: inherit
