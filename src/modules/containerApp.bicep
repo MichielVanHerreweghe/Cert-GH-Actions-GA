@@ -1,3 +1,5 @@
+targetScope = 'resourceGroup'
+
 /* Parameter */
 
 // General parameters
@@ -5,7 +7,6 @@ param projectName string
 param location string
 param locationShortName string
 param environment string
-param resourceGroupName string
 param applicationType string
 
 // Container App Environment parameters
@@ -33,6 +34,9 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2023-11-02-p
   name: containerAppEnvironmentName
   location: location
   tags: containerAppEnvironmentTags
+  properties:{
+    
+  }
   identity: {
     type: 'SystemAssigned'
   }
@@ -40,7 +44,6 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2023-11-02-p
 
 // Container App
 module containerApp 'br/public:avm/res/app/container-app:0.4.0' = {
-  scope: resourceGroup(resourceGroupName)
   name: '${containerAppName}-deployment'
   params: {
     environmentId: containerAppEnvironment.id
