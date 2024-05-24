@@ -2,7 +2,9 @@ name: Build Bicep
 
 on:
     pull_request: 
-        types: [opened, synchronize]
+      types: [opened, synchronize]
+      paths: 
+        - 'src/**'
 
 permissions:
     id-token: write
