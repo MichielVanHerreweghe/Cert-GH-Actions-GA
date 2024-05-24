@@ -14,19 +14,19 @@ permissions:
 
 jobs:
   deploy_dev:
-    uses: ./.github/workflows/reusable/deploy_bicep.yaml
+    uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
       environment: dev
     secrets: inherit
 
   deploy_stg:
-    uses: ./.github/workflows/reusable/deploy_bicep.yaml
+    uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
       environment: stg
     secrets: inherit
 
   deploy_prod:
-    uses: ./.github/workflows/reusable/deploy_bicep.yaml
+    uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
       environment: stg
     secrets: inherit
