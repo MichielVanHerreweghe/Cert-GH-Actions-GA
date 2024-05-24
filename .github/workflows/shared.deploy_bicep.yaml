@@ -7,6 +7,10 @@ on:
         required: true
         description: 'The environment to deploy to and what parameters to use'
         type: string
+      location:
+        required: true
+        description: 'The location to deploy to'
+        type: string
 
 jobs:
   deploy:
@@ -26,10 +30,21 @@ jobs:
         uses: Azure/cli@v1
         with:
           inlineScript: |
-            az bicep what-if --file src/main.bicep --parameters src/parameters/${{ github.event.inputs.environment }}.bicepparam
-      - name: Show What-If Plan
+            az deployment sub what-if --name whatif-${{ github.run_id }} --template-file src/main.bicep --parameters rc/parameters/${{ github.event.inputs.environment }}.bicepparam --location ${{ github.event.inputs.location }} > whatif 
+      - name: Create String Output
+        id: whatif-string
         run: |
-          echo "${{ steps.whatif.outputs.stdout }}"
+          WHATIF=$(cat whatif)
+          delimiter="$(openssl rand -hex 8)"
+          echo "summary<<${delimiter}" >> $GITHUB_OUTPUT
+          echo "## Whatif Output" >> $GITHUB_OUTPUT
+          echo "<details><summary>Click to expand</summary>" >> $GITHUB_OUTPUT
+          echo "" >> $GITHUB_OUTPUT
+          echo '```' >> $GITHUB_OUTPUT
+          echo "$WHATIF" >> $GITHUB_OUTPUT
+          echo '```' >> $GITHUB_OUTPUT
+          echo "</details>" >> $GITHUB_OUTPUT
+          echo "${delimiter}" >> $GITHUB_OUTPUT
       - name: Wait for approval
         uses: actions/github-script@v5
         with:
