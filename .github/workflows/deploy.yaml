@@ -20,12 +20,14 @@ jobs:
     secrets: inherit
 
   deploy_stg:
+    needs: deploy_dev
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
       environment: stg
     secrets: inherit
 
   deploy_prod:
+    needs: deploy_stg
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
       environment: stg
