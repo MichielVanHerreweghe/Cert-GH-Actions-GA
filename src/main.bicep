@@ -35,7 +35,6 @@ module containerResources './modules/containerApp.bicep' = {
     location: location
     locationShortName: locationShortName
     environment: environment
-    resourceGroupName: resourceGroupName
     applicationType: 'frontend'
     scaleMinReplicas: frontendScaleMinReplicas
     scaleMaxReplicas: frontendScaleMaxReplicas
