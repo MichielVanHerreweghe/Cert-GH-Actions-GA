@@ -14,6 +14,9 @@ on:
 
 jobs:
   deploy:
+    environment: 
+      name: ${{ inputs.deployEnv }}
+      url: ${{ steps.whatif-string.outputs.url }}
     name: 'Deploy Bicep - ${{ inputs.deployEnv }}'
     runs-on: ubuntu-latest
     steps:
@@ -43,18 +46,6 @@ jobs:
           echo '```' >> $GITHUB_OUTPUT
           echo "</details>" >> $GITHUB_OUTPUT
           echo "${delimiter}" >> $GITHUB_OUTPUT
-      - name: Wait for approval
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const { owner, repo } = context.repo
-            const { number } = context.issue
-            const { id } = await github.rest.actions.createWorkflowRunApproval({
-            owner,
-            repo,
-            run_id: number
-            })
-            console.log(`Created approval with id ${id}`)
       - name: Deploy Bicep
         uses: Azure/cli@v1
         with:

@@ -38,6 +38,6 @@ jobs:
     needs: deploy_stg
     uses: ./.github/workflows/shared.deploy_bicep.yaml
     with:
-      deployEnv: stg
+      deployEnv: prod
       location: ${{ github.event.inputs.location }}
     secrets: inherit
